@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17E3AA262E13027500044674 /* PhotoReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3AA252E13027400044674 /* PhotoReviewView.swift */; };
+		17E3AA282E13028500044674 /* PhotoReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3AA272E13028300044674 /* PhotoReviewViewController.swift */; };
+		17E3AA2A2E13029500044674 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3AA292E13029400044674 /* ImageLoader.swift */; };
 		2166686F2D48E23F009AAA76 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2166686E2D48E23F009AAA76 /* Fonts.swift */; };
 		216668712D48E4B2009AAA76 /* NSAttributedString+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216668702D48E4B2009AAA76 /* NSAttributedString+Ext.swift */; };
 		216668732D48E89A009AAA76 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216668722D48E89A009AAA76 /* Colors.swift */; };
@@ -30,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17E3AA252E13027400044674 /* PhotoReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewView.swift; sourceTree = "<group>"; };
+		17E3AA272E13028300044674 /* PhotoReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoReviewViewController.swift; sourceTree = "<group>"; };
+		17E3AA292E13029400044674 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		2166686E2D48E23F009AAA76 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		216668702D48E4B2009AAA76 /* NSAttributedString+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Ext.swift"; sourceTree = "<group>"; };
 		216668722D48E89A009AAA76 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -149,6 +155,9 @@
 		21B82E372D47B1090085DAA2 /* Reviews */ = {
 			isa = PBXGroup;
 			children = (
+				17E3AA292E13029400044674 /* ImageLoader.swift */,
+				17E3AA272E13028300044674 /* PhotoReviewViewController.swift */,
+				17E3AA252E13027400044674 /* PhotoReviewView.swift */,
 				21ED1F642D69D0340012D6F6 /* ReviewsScreenFactory.swift */,
 				21B82E292D47B0640085DAA2 /* ReviewsViewController.swift */,
 				2166A0F32D4A5B25009AAA76 /* ReviewsView.swift */,
@@ -265,6 +274,7 @@
 				21B82E2E2D47B0640085DAA2 /* ReviewCell.swift in Sources */,
 				21ED1F622D69CBCD0012D6F6 /* RootView.swift in Sources */,
 				21667B802D4A25B2009AAA76 /* RatingRenderer.swift in Sources */,
+				17E3AA282E13028500044674 /* PhotoReviewViewController.swift in Sources */,
 				216668712D48E4B2009AAA76 /* NSAttributedString+Ext.swift in Sources */,
 				21B82E362D47B0D80085DAA2 /* ReviewsProvider.swift in Sources */,
 				21ED1F602D69C85E0012D6F6 /* RootViewController.swift in Sources */,
@@ -272,6 +282,8 @@
 				21B8416B2D47BFA10085DAA2 /* Reviews.swift in Sources */,
 				21B82E302D47B0640085DAA2 /* ReviewsViewController.swift in Sources */,
 				2166A0F42D4A5B25009AAA76 /* ReviewsView.swift in Sources */,
+				17E3AA262E13027500044674 /* PhotoReviewView.swift in Sources */,
+				17E3AA2A2E13029500044674 /* ImageLoader.swift in Sources */,
 				216668732D48E89A009AAA76 /* Colors.swift in Sources */,
 				21B841712D47C5F00085DAA2 /* TableCellConfig.swift in Sources */,
 				21ED1F652D69D0340012D6F6 /* ReviewsScreenFactory.swift in Sources */,

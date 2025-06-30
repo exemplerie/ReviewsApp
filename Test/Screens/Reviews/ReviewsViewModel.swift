@@ -5,6 +5,8 @@ final class ReviewsViewModel: NSObject {
 
     /// Замыкание, вызываемое при изменении `state`.
     var onStateChange: ((State) -> Void)?
+    /// Замыкание, вызываемое при нажатии на фотографию.
+    var onPhotoTap: ((String) -> Void)?
 
     private var state: State
     private let reviewsProvider: ReviewsProvider
@@ -25,17 +27,32 @@ final class ReviewsViewModel: NSObject {
 
 }
 
+
 // MARK: - Internal
 
 extension ReviewsViewModel {
 
     typealias State = ReviewsViewModelState
-
-    /// Метод получения отзывов.
+    
     func getReviews() {
         guard state.shouldLoad else { return }
         state.shouldLoad = false
+        state.isLoading = true
+        onStateChange?(state)
         reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
+    }
+
+    /// Метод обновления отзывов.
+    func refreshReviews(completion: @escaping () -> Void) {
+        state.offset = 0
+        state.items.removeAll()
+        state.shouldLoad = true
+        state.isLoading = true
+        onStateChange?(state)
+        reviewsProvider.getReviews(offset: state.offset) { [weak self] result in
+            self?.gotReviews(result)
+            completion()
+        }
     }
 
 }
@@ -52,9 +69,12 @@ private extension ReviewsViewModel {
             state.items += reviews.items.map(makeReviewItem)
             state.offset += state.limit
             state.shouldLoad = state.offset < reviews.count
+            state.items = state.items.filter { !($0 is ReviewCountCellConfig) }
+            state.items.append(ReviewCountCellConfig(count: reviews.count))
         } catch {
             state.shouldLoad = true
         }
+        state.isLoading = false
         onStateChange?(state)
     }
 
@@ -81,10 +101,21 @@ private extension ReviewsViewModel {
     func makeReviewItem(_ review: Review) -> ReviewItem {
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
+        let userName = "\(review.first_name) \(review.last_name)".attributed(font: .text)
+        let ratingImage = ratingRenderer.ratingImage(review.rating)
         let item = ReviewItem(
             reviewText: reviewText,
             created: created,
-            onTapShowMore: showMoreReview
+            onTapShowMore: { [weak self] id in
+                self?.showMoreReview(with: id)
+            },
+            userName: userName,
+            ratingImage: ratingImage,
+            avatarURL: review.avatar_url,
+            photoURLs: review.photo_urls,
+            onTapPhoto: { [weak self] photoURL in
+                self?.onPhotoTap?(photoURL)
+            }
         )
         return item
     }

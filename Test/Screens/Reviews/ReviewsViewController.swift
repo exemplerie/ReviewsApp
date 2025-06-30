@@ -4,6 +4,7 @@ final class ReviewsViewController: UIViewController {
 
     private lazy var reviewsView = makeReviewsView()
     private let viewModel: ReviewsViewModel
+    private let refreshControl = UIRefreshControl()
 
     init(viewModel: ReviewsViewModel) {
         self.viewModel = viewModel
@@ -22,9 +23,9 @@ final class ReviewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()
+        setupRefreshControl()
         viewModel.getReviews()
     }
-
 }
 
 // MARK: - Private
@@ -39,9 +40,35 @@ private extension ReviewsViewController {
     }
 
     func setupViewModel() {
-        viewModel.onStateChange = { [weak reviewsView] _ in
+        viewModel.onStateChange = { [weak reviewsView] state in
             reviewsView?.tableView.reloadData()
+            reviewsView?.updateLoadingState(isLoading: state.isLoading && state.items.isEmpty)
+        }
+        
+        viewModel.onPhotoTap = { [weak self] photoURL in
+            self?.presentPhotoReview(with: photoURL)
         }
     }
 
+    func presentPhotoReview(with photoURL: String) {
+        let photoReviewVC = PhotoReviewViewController(photoURL: photoURL)
+        let navigationController = UINavigationController(rootViewController: photoReviewVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
+}
+
+extension ReviewsViewController {
+    private func setupRefreshControl() {
+        reviewsView.tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshReviews), for: .valueChanged)
+    }
+
+    @objc private func refreshReviews() {
+        viewModel.refreshReviews { [weak self] in
+            DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing()
+            }
+        }
+    }
 }

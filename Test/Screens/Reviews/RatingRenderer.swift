@@ -36,16 +36,14 @@ extension RatingRendererConfig {
 final class RatingRenderer {
 
     private let config: RatingRendererConfig
-    private var images: [Int: UIImage]
     private let imageRenderer: UIGraphicsImageRenderer
+    private let cache = NSCache<NSNumber, UIImage>()
 
     init(
         config: RatingRendererConfig,
-        images: [Int: UIImage],
         imageRenderer: UIGraphicsImageRenderer
     ) {
         self.config = config
-        self.images = images
         self.imageRenderer = imageRenderer
     }
 
@@ -60,11 +58,16 @@ extension RatingRenderer {
             width: (config.starImage.size.width + config.spacing) * CGFloat(config.ratingRange.upperBound) - config.spacing,
             height: config.starImage.size.height
         )
-        self.init(config: config, images: [:], imageRenderer: UIGraphicsImageRenderer(size: size))
+        self.init(config: config,imageRenderer: UIGraphicsImageRenderer(size: size))
     }
 
     func ratingImage(_ rating: Int) -> UIImage {
-        images[rating] ?? drawRatingImageAndCache(rating)
+        if let cached = cache.object(forKey: NSNumber(value: rating)) {
+            return cached
+        }
+        let newImage = drawRatingImage(rating)
+        cache.setObject(newImage, forKey: NSNumber(value: rating))
+        return newImage
     }
 
 }
@@ -75,7 +78,6 @@ private extension RatingRenderer {
 
     func drawRatingImageAndCache(_ rating: Int) -> UIImage {
         let ratingImage = drawRatingImage(rating)
-        images[rating] = ratingImage
         return ratingImage
     }
 
